@@ -34,3 +34,9 @@ func newDeck() deck {
 
 	return cards
 }
+
+// (deck, deck), means we want to return two values of type deck
+func deal(d deck, handSize int) (deck, deck) {
+	// Slicing
+	return d[:handSize], d[handSize:]
+}
