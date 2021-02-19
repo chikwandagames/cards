@@ -1,14 +1,9 @@
 package main
 
-import "fmt"
-
 func main() {
-	cards := []string{"Ace if Diamonds", newCard()}
-	cards2 := deck{"Jack of Diamonds", newCard()}
 
-	fmt.Println(cards)
-
-	cards2.myPrint()
+	cards := newDeck()
+	cards.myPrint()
 }
 
 func newCard() string {

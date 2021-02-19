@@ -13,10 +13,24 @@ type deck []string
 // d is the current deck item we are working with, remember d is []string
 
 // Calling myPrint on an item of type deck, will pass that item as a receiver
-// then print it using the for loop
+// e.g myPrint(item) then print it using the for loop
 
 func (d deck) myPrint() {
-	for i, card := range d {
+	for i, card := range d { // d is like self or this
 		fmt.Println(i, card)
 	}
+}
+
+func newDeck() deck {
+	cards := deck{}
+	suits := []string{"Spades", "Diamonds", "Hearts", "Clubs"}
+	values := []string{"Ace", "Two", "Three", "Four", "Five"}
+
+	for _, suit := range suits {
+		for _, value := range values {
+			cards = append(cards, value+" of "+suit)
+		}
+	}
+
+	return cards
 }
