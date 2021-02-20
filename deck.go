@@ -86,7 +86,7 @@ func newDeckFromFile(filename string) deck {
 
 func (d deck) shuffle() {
 	// so that we have random seed each time we loop
-	// we use time.Now to generate a unique int64 number each time we call this shuffle
+	// we use timeNow to generate a unique int64 number each time we call this shuffle
 	source := rand.NewSource(time.Now().UnixNano())
 	r := rand.New(source)
 
