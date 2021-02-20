@@ -12,18 +12,30 @@ type person struct {
 	firstName string
 	lastName  string
 	// Embedded Struct
-	contact contactInfo
+	contactInfo
 }
 
 func main() {
 	john := person{
 		firstName: "John",
 		lastName:  "Jones",
-		contact: contactInfo{
+		contactInfo: contactInfo{
 			email:    "john@gmail.com",
 			postCode: 4000,
 		},
 	}
 
-	fmt.Printf("%+v \n", john)
+	john.updateName("Johnny", "Bones")
+	john.myPrint()
+
+}
+
+// receiver function
+func (p person) myPrint() {
+	fmt.Printf("%+v \n", p)
+}
+
+func (p person) updateName(fName string, lName string) {
+	p.firstName = fName
+	p.lastName = lName
 }
