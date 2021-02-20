@@ -1,6 +1,11 @@
 package main
 
-import "fmt"
+// "string" package lets you use the join function
+import (
+	"fmt"
+	"io/ioutil"
+	"strings"
+)
 
 // A custom type extends a base type and adds some funtionality to it
 
@@ -39,4 +44,19 @@ func newDeck() deck {
 func deal(d deck, handSize int) (deck, deck) {
 	// Slicing
 	return d[:handSize], d[handSize:]
+}
+
+// A byte slice is a string repesented in ascii
+// eg "Hi there!" == [72, 105, 32, 116, 104, 101, 114, 101, 33]
+
+// Converts a deck into a string
+func (d deck) toString() string {
+	return strings.Join([]string(d), ", ")
+}
+
+func (d deck) saveToFile(filename string) error {
+	// for saving a byte slice to file, we need to convert deck to string
+	// then string to byte slice
+	// 0666 permissions means anyone can read and write to the file
+	return ioutil.WriteFile(filename, []byte(d.toString()), 0666)
 }
