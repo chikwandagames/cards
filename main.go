@@ -2,31 +2,28 @@ package main
 
 import "fmt"
 
+type contactInfo struct {
+	email    string
+	postCode int
+}
+
 type person struct {
 	// Properties
 	firstName string
 	lastName  string
+	// Embedded Struct
+	contact contactInfo
 }
 
 func main() {
-	// Declration
-	// option 1
-	alex := person{"Alex", "Anderson"}
+	john := person{
+		firstName: "John",
+		lastName:  "Jones",
+		contact: contactInfo{
+			email:    "john@gmail.com",
+			postCode: 4000,
+		},
+	}
 
-	// option 2
-	bob := person{firstName: "Bob", lastName: "Marley"}
-
-	// option 3
-	var jane person
-	// At this point firstName and lastName are zero values
-	// Defult values e.g. int 0, bool false, string ""...
-	fmt.Println(jane)
-	// %+v, will print all the fields and their values
-	fmt.Printf("%+v \n", jane)
-	//
-	jane.firstName = "Jane"
-	jane.lastName = "Thomas"
-
-	fmt.Println(alex)
-	fmt.Println(bob)
+	fmt.Printf("%+v \n", john)
 }
