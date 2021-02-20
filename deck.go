@@ -4,8 +4,10 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"os"
 	"strings"
+	"time"
 )
 
 // A custom type extends a base type and adds some funtionality to it
@@ -80,4 +82,20 @@ func newDeckFromFile(filename string) deck {
 	ss := strings.Split(string(bSlice), ", ")
 	return deck(ss)
 
+}
+
+func (d deck) shuffle() {
+	// so that we have random seed each time we loop
+	// we use time.Now to generate a unique int64 number each time we call this shuffle
+	source := rand.NewSource(time.Now().UnixNano())
+	r := rand.New(source)
+
+	// The item can be left out
+	for i := range d {
+		// random number from 0 to d length -1
+		newPos := r.Intn(len(d) - 1)
+
+		// Swap
+		d[i], d[newPos] = d[newPos], d[i]
+	}
 }
