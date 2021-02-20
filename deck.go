@@ -4,6 +4,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 	"strings"
 )
 
@@ -51,6 +52,7 @@ func deal(d deck, handSize int) (deck, deck) {
 
 // Converts a deck into a string
 func (d deck) toString() string {
+	// Join concatenates all the elements present in the slice of string into a single string
 	return strings.Join([]string(d), ", ")
 }
 
@@ -59,4 +61,23 @@ func (d deck) saveToFile(filename string) error {
 	// then string to byte slice
 	// 0666 permissions means anyone can read and write to the file
 	return ioutil.WriteFile(filename, []byte(d.toString()), 0666)
+}
+
+func newDeckFromFile(filename string) deck {
+	// ReadFile returns 2 items
+	bSlice, err := ioutil.ReadFile(filename)
+
+	if err != nil {
+		fmt.Println("Error: ", err)
+		// Exit the program, code other than 0, means somthing went wrong
+		os.Exit(1)
+
+	}
+
+	// Cast the byte slice to string
+	// Split func, splits a string into all substrings separated by the given separator
+	// and returns a slice which contains these substrings
+	ss := strings.Split(string(bSlice), ", ")
+	return deck(ss)
+
 }
