@@ -25,17 +25,29 @@ func main() {
 		},
 	}
 
-	john.updateName("Johnny", "Bones")
+	// Pointers
+	// johnPtr points to the address of john
+	johnPtr := &john
+	johnPtr.updateName("Johnny", "Bones")
+
+	// Go allows you to call a function that receives ta pointer
+	// with a pointer or actaual value
+	johnPtr.myPrint()
 	john.myPrint()
 
 }
 
 // receiver function
-func (p person) myPrint() {
-	fmt.Printf("%+v \n", p)
+// * before type
+// This is a type, it means we are woking with a pointer to a person
+func (personPtr *person) myPrint() {
+	fmt.Printf("%+v \n", (*personPtr))
 }
 
-func (p person) updateName(fName string, lName string) {
-	p.firstName = fName
-	p.lastName = lName
+func (personPtr *person) updateName(fName string, lName string) {
+	// Dererence the pointer to person, change from pointer to value
+	// * before value
+	// This means we want to manipulate the value the pointer is referencing
+	(*personPtr).firstName = fName
+	(*personPtr).lastName = lName
 }
