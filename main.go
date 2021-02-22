@@ -2,9 +2,13 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 )
+
+// Custom writer
+type logWriter struct{}
 
 func main() {
 	resp, err := http.Get("http://google.com")
@@ -13,11 +17,22 @@ func main() {
 		os.Exit(1)
 	}
 
-	// the byte slice for holding all the data added to it by the Read function
-	// 999999 is the size or length
-	bSlice := make([]byte, 99999)
+	// Here we use the writer interface
+	// here the Copy funtion takes data from resp.Body and writes it to the terminal
+	// repo.Body implements the readar interface
 
-	resp.Body.Read(bSlice)
-	fmt.Println(string(bSlice))
+	// io.Copy(os.Stdout, resp.Body)
 
+	// Custom writer
+	lw := logWriter{}
+	io.Copy(lw, resp.Body)
+
+}
+
+// By just defining this Write function, and associating it with the logWriter struct
+// The logWriter is now implementing the Writer interface
+func (logWriter) Write(bs []byte) (int, error) {
+	fmt.Println(string(bs))
+	fmt.Printf("Just wrote %v bytes \n", len(bs))
+	return len(bs), nil
 }
