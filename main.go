@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"time"
 )
 
 // The function main creates a Main go routine by default,
@@ -34,11 +35,22 @@ func main() {
 		// execution of the previous one
 		go checkLink(link, c)
 	}
-	// fmt.Println(<-c), this receives data from a channel, and prints
+	// fmt.Println(<-c), <-c this receives data from a channel, and prints
 	// Receiving messages for a channel is a BLOCKING operation
 
-	for i := 0; i < len(links); i++ {
-		fmt.Println(<-c)
+	// infinite loop
+	// for {
+	// 	go checkLink(<-c, c)
+	// }
+
+	for l := range c {
+
+		// Anonymous function of lambda
+		go func(link string) {
+			// Pause for 5 seconds
+			time.Sleep(5 * time.Second)
+			checkLink(link, c)
+		}(l)
 	}
 
 }
@@ -52,10 +64,10 @@ func checkLink(link string, c chan string) {
 	if err != nil {
 		fmt.Println(link, "might be down!")
 		// Send a message into the channel
-		c <- "Might be down"
+		c <- link
 		return
 	}
 	fmt.Println(link, "is up!")
 	// Send a message into the channel
-	c <- "Yes it up"
+	c <- link
 }
